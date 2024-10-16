@@ -25,73 +25,42 @@ const Appointments = () => {
   const [reason, setReason] = useState("");
   const [selectedPlants, setSelectedPlants] = useState([]);
 
-  // Please change it to the corrosponding port
-
-  const sessionUser = sessionStorage.getItem("user");
-
+  // Set session user information when component mounts
   useEffect(() => {
+    const sessionUser = sessionStorage.getItem("user");
     if (sessionUser) {
       const currentUser = JSON.parse(sessionUser);
-      setUserID(currentUser._id); // Update userID using setUserID
-      console.log("CURRENT USER LOADED!");
-      console.log("username = " + currentUser.username);
-      console.log("userid = " + currentUser._id);
-      if (!currentUser.username) {
-        setUsername("null");
-      } else {
-        setUsername(currentUser.username);
-      }
+      setUserID(currentUser._id);
+      setUsername(currentUser.username || "null");
+    } else {
+      console.log("NO CURRENT USER, OBJECTS WON'T LOAD & CREATE");
+    }
+  }, []);
+
+  // Fetch appointments and plants when userID is set
+  useEffect(() => {
+    if (userID) {
       fetchAppointments();
       fetchPlants();
-    } else {
-      console.log("NO CURRENT USER, OBJECTS WONT LOAD & CREATE");
     }
   }, [userID]);
-
-  useEffect(() => {}, [userID]);
-
-  const fetchAppointmentsWOfiltering = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_ADDRESS}/appointments`)
-      .then((response) => {
-        setAppointments(response.data);
-        console.log(
-          "Connection to appointments database:\n success\n Type: GET"
-        );
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the appointments!", error);
-      });
-  };
 
   const fetchAppointments = () => {
     axios
       .get(`${process.env.REACT_APP_API_ADDRESS}/appointments/user/${userID}`)
       .then((response) => {
-        setAppointments(response.data);
-        setAppointmentEmpty(false);
-        console.log(
-          "Connection to appointments database:\n success\n Type: GET FILTERED"
-        );
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("There is no appointments!", error);
-        setAppointmentEmpty(true);
-      });
-  };
-
-  const fetchPlantsWOfiltering = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_ADDRESS}/plants`)
-      .then((response) => {
-        setPlants(response.data);
-        console.log("Connection to plants database:\n success");
-        console.log(response.data);
+        console.log("Appointments API response:", response.data);
+        if (Array.isArray(response.data)) {
+          setAppointments(response.data);
+          setAppointmentEmpty(false);
+        } else {
+          console.error("Appointments data is not an array", response.data);
+          setAppointmentEmpty(true);
+        }
       })
       .catch((error) => {
         console.error("There was an error fetching the appointments!", error);
+        setAppointmentEmpty(true);
       });
   };
 
@@ -100,26 +69,12 @@ const Appointments = () => {
       .get(`${process.env.REACT_APP_API_ADDRESS}/plants/user/${userID}`)
       .then((response) => {
         setPlants(response.data);
-        console.log(
-          "Connection to appointments database:\n success\n Type: GET FILTERED"
-        );
-        console.log(response.data);
+        console.log("Connection to plants database:\n success");
       })
       .catch((error) => {
-        console.error("There was an error fetching the appointments!", error);
+        console.error("There was an error fetching the plants!", error);
       });
   };
-
-  useEffect(() => {
-    console.log("Current appointments: ", appointments);
-    console.log("Current plants: ", plants);
-    console.log(
-      "Current user credentials: \n USERNAME: " +
-        username +
-        " \n USER_ID: " +
-        userID
-    );
-  }, [userID]);
 
   const handleCreateAppointment = async (event) => {
     event.preventDefault();
@@ -143,10 +98,6 @@ const Appointments = () => {
 
       if (response.status === 201) {
         setMessage("Created appointment");
-
-        console.log(
-          "Connection to appointments database:\n success\n Type: POST"
-        );
         fetchAppointments();
       } else {
         setMessage("Error creating appointment");
@@ -175,11 +126,10 @@ const Appointments = () => {
 
         <div className="aptAppointmentContainer">
           <div className="aptAppointmentContainerAppointments">
-            {/* This part must be reloaded again after deletion */}
-            {appointments.length > 0 && !appointmentEmpty ? (
+            {Array.isArray(appointments) && appointments.length > 0 ? (
               appointments.map((appObj) => (
                 <AppointmentItem
-                  key={appObj.appointmentId}
+                  key={appObj._id}
                   id={appObj._id}
                   plants={appObj.plants}
                   Reason={appObj.reason}
@@ -187,9 +137,9 @@ const Appointments = () => {
                   onDelete={handleDeleteAppointment}
                 />
               ))
-            ) : appointmentEmpty ? (
+            ) : (
               <p style={{ color: "#ababab" }}>You have no appointments!</p>
-            ) : null}
+            )}
           </div>
         </div>
 
@@ -218,7 +168,7 @@ const Appointments = () => {
                       multiple
                       className="form-control aptCreateAppSelplantDate"
                       id="exampleFormControlSelect2"
-                      value={selectedPlants.map((plant) => plant._id)} // Use selected plant IDs
+                      value={selectedPlants.map((plant) => plant._id)}
                       onChange={(e) => {
                         const selectedIds = Array.from(
                           e.target.selectedOptions,
@@ -250,14 +200,14 @@ const Appointments = () => {
                         cursor: "pointer",
                       }}
                     >
-                      Go to your Plantslibrary
+                      Go to your Plants Library
                     </Link>
                   </div>
                 )}
               </div>
 
               {/* Input plant appointment reason */}
-              <div class="form-group">
+              <div className="form-group">
                 <p>Appointment reason:</p>
                 <textarea
                   className="aptCreateAppDateSelectsDate"

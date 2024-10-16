@@ -24,10 +24,16 @@ const PlantLibrary = () => {
 
   const fetchPlants = (userID) => {
     axios
-      .get(`${process.env.REACT_APP_IMAGES_ADDRESS}/plants/user/${userID}`)
+      .get(`${process.env.REACT_APP_API_ADDRESS}/plants/user/${userID}`)
       .then((response) => {
-        setPlants(response.data);
-        setPlantsEmpty(false);
+        console.log("Plants API response:", response.data); // Debugging log
+        if (Array.isArray(response.data)) {
+          setPlants(response.data); // Ensure it's an array before setting the state
+          setPlantsEmpty(false);
+        } else {
+          console.error("The response data is not an array", response.data);
+          setPlantsEmpty(true);
+        }
       })
       .catch((error) => {
         setPlantsEmpty(true);

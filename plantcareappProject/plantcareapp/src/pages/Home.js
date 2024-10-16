@@ -12,6 +12,7 @@ const Home = () => {
   const [profilePhoto, setProfilePhoto] = useState(UserPhoto);
   const [appointments, setAppointments] = useState([]);
 
+  // Fetch session user when the component mounts
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
@@ -19,16 +20,41 @@ const Home = () => {
       setUser(parsedUser);
       setProfilePhoto(parsedUser.profilePhoto || UserPhoto);
     }
+  }, []);
 
+  // Fetch appointments when the component mounts
+  useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_ADDRESS}/appointments`) // Adjust the port as needed
+      .get(`${process.env.REACT_APP_API_ADDRESS}/appointments`)
       .then((response) => {
-        setAppointments(response.data);
+        if (Array.isArray(response.data)) {
+          setAppointments(response.data);
+        } else {
+          console.error("Appointments data is not an array", response.data);
+          setAppointments([]);
+        }
       })
       .catch((error) => {
         console.error("There was an error fetching the appointments!", error);
+        setAppointments([]);
       });
   }, []);
+
+  // Helper function to handle different types of plant data
+  const renderPlantInfo = (plants) => {
+    if (Array.isArray(plants)) {
+      // If plants is an array, join them into a string
+      return plants.join(", ");
+    } else if (typeof plants === "string") {
+      // If plants is a string, return it directly
+      return plants;
+    } else if (typeof plants === "object") {
+      // If plants is an object, convert it to a JSON string (for debugging or simple rendering)
+      return JSON.stringify(plants);
+    } else {
+      return "Unknown plant data";
+    }
+  };
 
   return (
     <div className="profile-container">
@@ -44,9 +70,10 @@ const Home = () => {
             style={{ width: "12%" }}
           />
           <br />
-          <h2>{user && user.name}</h2>
-          <p style={{ marginTop: "-15px" }}>{user && user.email}</p>
+          <h2>{user ? user.name : "Loading..."}</h2>
+          <p style={{ marginTop: "-15px" }}>{user ? user.email : ""}</p>
         </header>
+
         <div
           className="card"
           style={{
@@ -65,13 +92,13 @@ const Home = () => {
             <h6 style={{ fontWeight: "bold" }}>Personal Information</h6>
             <p style={{ textAlign: "center", fontSize: "12px" }}>
               Name: <br />
-              {user && user.name} <br />
+              {user ? user.name : "Loading..."} <br />
               <br />
               Username: <br />
-              {user && user.username} <br />
+              {user ? user.username : "Loading..."} <br />
               <br />
               Email: <br />
-              {user && user.email}
+              {user ? user.email : "Loading..."}
             </p>
           </div>
         </div>
@@ -92,6 +119,7 @@ const Home = () => {
             </Link>
           </button>
         </div>
+
         <br />
         <h3 style={{ textAlign: "center", marginTop: "20px" }}>
           Current Appointments
@@ -107,15 +135,12 @@ const Home = () => {
         >
           {appointments.length > 0 ? (
             appointments.map((appointment) => (
-              <button
-                key={appointment.appointmentId}
-                className="appointment-button"
-              >
+              <button key={appointment._id} className="appointment-button">
                 <Link
                   to="/appointments"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
-                  {appointment.plants} -{" "}
+                  {renderPlantInfo(appointment.plants)} -{" "}
                   {new Date(appointment.date).toLocaleDateString()}
                 </Link>
               </button>
@@ -144,6 +169,7 @@ const Home = () => {
             </Link>
           </p>
         </div>
+
         <br />
         <br />
         <br />
