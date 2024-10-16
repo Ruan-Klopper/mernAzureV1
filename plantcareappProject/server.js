@@ -13,6 +13,14 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
 
+app.use(
+  cors({
+    origin:
+      "https://groupterm2v3-bggabkaudreqhae7.southafricanorth-01.azurewebsites.net", // Your frontend URL
+    credentials: true,
+  })
+);
+
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
