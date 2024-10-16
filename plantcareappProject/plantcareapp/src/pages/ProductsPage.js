@@ -18,7 +18,9 @@ const ProductsPage = () => {
   useEffect(() => {
     const fetchProductsAndCart = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/products");
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_ADDRESS}/products`
+        );
         const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         const productsWithCarted = response.data.map((product) => ({
@@ -111,9 +113,12 @@ const ProductsPage = () => {
 
   const deleteProduct = async (productId) => {
     try {
-      await axios.post("http://localhost:5000/api/products/deleteProduct", {
-        id: productId,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_API_ADDRESS}/products/deleteProduct`,
+        {
+          id: productId,
+        }
+      );
       setProducts(products.filter((product) => product.id !== productId));
       setFilteredProducts(
         filteredProducts.filter((product) => product.id !== productId)
@@ -252,7 +257,7 @@ const ProductsPage = () => {
                     >
                       <img
                         className="images-circular card-img-top mt-2"
-                        src={`http://localhost:5000/Images/${product.image}`}
+                        src={`${process.env.REACT_APP_IMAGES_ADDRESS}/${product.image}`}
                         alt={`${product.name}`}
                       />
                       <div className="card-body ml-5">

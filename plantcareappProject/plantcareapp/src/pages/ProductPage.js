@@ -11,13 +11,13 @@ const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [isInCart, setIsInCart] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [role, setRole] = useState(""); 
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/products/product/${id}`
+          `${process.env.REACT_APP_API_ADDRESS}/products/product/${id}`
         );
         setProduct(response.data);
 
@@ -31,11 +31,10 @@ const ProductPage = () => {
     };
     fetchProduct();
 
-    
     const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
-      setRole(parsedUser.usertype); 
+      setRole(parsedUser.usertype);
     }
   }, [id]);
 
@@ -68,7 +67,7 @@ const ProductPage = () => {
           <div className="row justify-content-center align-items-center">
             <div className="col-md-6">
               <img
-                src={`http://localhost:5000/Images/${product.image}`}
+                src={`${process.env.REACT_APP_IMAGES_ADDRESS}/${product.image}`}
                 className="img-fluid"
                 alt={product.name}
               />
@@ -82,7 +81,7 @@ const ProductPage = () => {
                 <button onClick={handleAddToCart} className="btn btn-primary">
                   {isInCart ? "Remove from Cart" : "Add to Cart"}
                 </button>
-                {role && (role === "admin" || role ==="Admin")  ? (
+                {role && (role === "admin" || role === "Admin") ? (
                   <button
                     onClick={() => setEditMode(true)}
                     className="btn btn-secondary ml-2"
@@ -106,4 +105,3 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
-

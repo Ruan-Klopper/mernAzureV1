@@ -24,7 +24,7 @@ const PlantLibrary = () => {
 
   const fetchPlants = (userID) => {
     axios
-      .get(`http://localhost:${PORT}/api/plants/user/${userID}`)
+      .get(`${process.env.REACT_APP_IMAGES_ADDRESS}/plants/user/${userID}`)
       .then((response) => {
         setPlants(response.data);
         setPlantsEmpty(false);

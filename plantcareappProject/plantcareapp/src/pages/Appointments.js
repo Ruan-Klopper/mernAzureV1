@@ -26,7 +26,7 @@ const Appointments = () => {
   const [selectedPlants, setSelectedPlants] = useState([]);
 
   // Please change it to the corrosponding port
-  const PORT = 5000;
+
   const sessionUser = sessionStorage.getItem("user");
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Appointments = () => {
 
   const fetchAppointmentsWOfiltering = () => {
     axios
-      .get(`http://localhost:${PORT}/api/appointments`)
+      .get(`${process.env.REACT_APP_API_ADDRESS}/appointments`)
       .then((response) => {
         setAppointments(response.data);
         console.log(
@@ -67,7 +67,7 @@ const Appointments = () => {
 
   const fetchAppointments = () => {
     axios
-      .get(`http://localhost:${PORT}/api/appointments/user/${userID}`)
+      .get(`${process.env.REACT_APP_API_ADDRESS}/appointments/user/${userID}`)
       .then((response) => {
         setAppointments(response.data);
         setAppointmentEmpty(false);
@@ -84,7 +84,7 @@ const Appointments = () => {
 
   const fetchPlantsWOfiltering = () => {
     axios
-      .get(`http://localhost:${PORT}/api/plants`)
+      .get(`${process.env.REACT_APP_API_ADDRESS}/plants`)
       .then((response) => {
         setPlants(response.data);
         console.log("Connection to plants database:\n success");
@@ -97,7 +97,7 @@ const Appointments = () => {
 
   const fetchPlants = () => {
     axios
-      .get(`http://localhost:${PORT}/api/plants/user/${userID}`)
+      .get(`${process.env.REACT_APP_API_ADDRESS}/plants/user/${userID}`)
       .then((response) => {
         setPlants(response.data);
         console.log(
@@ -131,7 +131,7 @@ const Appointments = () => {
       console.log("Reason:", reason);
 
       const response = await axios.post(
-        `http://localhost:${PORT}/api/appointments/create`,
+        `${process.env.REACT_APP_API_ADDRESS}/appointments/create`,
         {
           userID,
           username,

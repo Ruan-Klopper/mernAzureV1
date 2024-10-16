@@ -21,7 +21,7 @@ const Home = () => {
     }
 
     axios
-      .get("http://localhost:3001/api/appointments")  // Adjust the port as needed
+      .get(`${process.env.REACT_APP_API_ADDRESS}/appointments`) // Adjust the port as needed
       .then((response) => {
         setAppointments(response.data);
       })
@@ -115,7 +115,8 @@ const Home = () => {
                   to="/appointments"
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
-                  {appointment.plants} - {new Date(appointment.date).toLocaleDateString()}
+                  {appointment.plants} -{" "}
+                  {new Date(appointment.date).toLocaleDateString()}
                 </Link>
               </button>
             ))
