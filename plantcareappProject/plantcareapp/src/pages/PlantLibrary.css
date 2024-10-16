@@ -1,0 +1,168 @@
+/* Global styles */
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap");
+
+/* div {
+  font-family: "Red Hat Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+} */
+
+.plMain {
+  height: 100vh;
+  overflow: auto;
+  background-color: white;
+}
+
+.plLibrarySpace {
+  width: 1000px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+.plLibraryAddPlantBTN {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid #000000;
+  background-color: #ffaaf1;
+  border-radius: 25px;
+  margin-left: 800px;
+  margin-bottom: 60px;
+}
+
+.plLibraryContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Plant Library Card CSS - PlantLibraryObject */
+.plObjectMain {
+  width: 300px;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  padding-left: 25px;
+  padding-right: 25px;
+  background-color: #dffede;
+  border-radius: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.plObjectCloseBTN {
+  padding-top: -5px;
+  padding-bottom: -5px;
+  padding-left: 9px;
+  padding-right: 9px;
+  border: 1px solid #000000;
+  background-color: #ffaaf1;
+  border-radius: 25px;
+  margin-left: 175px;
+  transition: 0.3s;
+}
+.plObjectCloseBTN:hover {
+  border: 3px solid #000000;
+  background-color: #ff0000;
+  color: white;
+}
+
+.plObjectImage {
+  width: 200px;
+  height: 200px;
+  border: 2px solid #000000;
+  border-radius: 100px;
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+.plObjectViewPlantHisBTN {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid #000000;
+  background-color: #ffaaf1;
+  border-radius: 25px;
+  transition: 0.3s;
+}
+
+.plObjectViewPlantHisBTN:hover {
+  border: 3px solid #000000;
+  background-color: #ff69e6;
+  border-radius: 25px;
+}
+
+/* Form classes */
+.plForm {
+  width: 400px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: #b7fab4;
+  border-radius: 40px;
+  margin-bottom: 50px;
+}
+.plFormBody {
+  width: 350px;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #dffede;
+  border-radius: 25px;
+}
+
+.plAddPlantTextfield {
+  width: 300px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid #000000;
+  border-radius: 25px;
+}
+
+.plAddPlantButton {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid #000000;
+  background-color: #ffaaf1;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.plAddPlantButton:hover {
+  border: 3px solid #1b8c15;
+  background-color: #aaffcd;
+  cursor: pointer;
+}
+
+/* Update plant object */
+.plUpdateBody {
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 20px;
+  border: 1px solid #000000;
+  margin-top: 30px;
+}
+.plUpdatePlantTextField {
+  width: 220px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid #000000;
+  border-radius: 25px;
+}

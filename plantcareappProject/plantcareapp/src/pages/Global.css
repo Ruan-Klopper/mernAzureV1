@@ -1,0 +1,6 @@
+.webpage-frame {
+  height: 100vh;
+  overflow: auto;
+  padding-left: 180px;
+  background-color: white;
+}

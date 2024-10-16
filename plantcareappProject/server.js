@@ -32,7 +32,7 @@ const appointmentRoutes = require("./Routes/AppointmentRoutes");
 app.use("/api/appointments", appointmentRoutes);
 
 app.use(express.static("./plantcareapp/build"));
-app.length("*", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "plantcareapp", "build", "index.html"));
 });
 
