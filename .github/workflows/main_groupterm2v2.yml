@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - groupTerm2v2
+name: Build and deploy Node.js app to Azure Web App - groupTerm2v3
 
 on:
   push:
@@ -49,5 +49,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'groupTerm2v2'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D6DD6EFD6A9345CAAA8BB430105001C1 }}
+          app-name: 'groupTerm2v3'  # Updated app name
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_GROUPTERM2V3 }}  # Updated secret name
