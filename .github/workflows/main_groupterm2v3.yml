@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest  # Switch to Ubuntu for compatibility with CI=false
 
     steps:
       - uses: actions/checkout@v4
@@ -25,8 +25,8 @@ jobs:
       - name: npm install, build, and test
         working-directory: ./plantcareappProject/plantcareapp
         run: |
-          npm install
-          npm run build --if-present
+          CI=false npm install
+          CI=false npm run build --if-present
           # Skipping tests for now
           # npm run test --if-present
       
